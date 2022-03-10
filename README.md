@@ -2,9 +2,13 @@
 
 ---
 
-Docker container that calls bash scripts to download from Paramount+ using youtube-dl, retrying downloads when corruption occurs.
+Docker container that calls bash scripts to download from Paramount+ using youtube-dl,
+including Grandfather-Paradox's script that fixes the picture/audio lag/desync
+issues from Paramount+ youtube-dl downloads.
 
 English subtitles are also downloaded and muxed into an MKV with the video/audio.
+
+This container will download seasons concurrently, but episodes within the seasons will be sequential.
 
 Dependencies: docker
 
@@ -14,7 +18,7 @@ Usage:
 
 `docker build -t paramountdl .`
 
-`docker run --rm -v $PWD/downloads:/usr/src/app/downloads paramountdl <SHOW_URL>`
+`docker run -v $PWD/downloads:/usr/src/app/downloads paramountdl <SHOW_URL>`
 
 
 Replace `<SHOW_URL>` with your desired show, ex. `https://www.paramountplus.com/shows/survivor/`
