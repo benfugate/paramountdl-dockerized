@@ -18,19 +18,19 @@ Dependencies: docker
 
 ### Usage:
 
-- #### Using my docker image
+#### Using my docker image
 
 1. `docker run -v $PWD/downloads:/usr/src/app/downloads benfugate/paramountdl <SHOW_URL>`
 
-- #### Building your own
+#### Building your own
 
 1. `docker build -t paramountdl .`
 
 2. `docker run -v $PWD/downloads:/usr/src/app/downloads paramountdl <SHOW_URL>`
 
-- Replace `<SHOW_URL>` with your desired show, ex. `https://www.paramountplus.com/shows/survivor/`
+Replace `<SHOW_URL>` with your desired show, ex. `https://www.paramountplus.com/shows/survivor/`. The trailing slash is required, and anything extra will be trimmed off by the script.
 
-- Mounting the 'download' folder is required so that episodes will appear on your local filesystem, outside of docker.
+Mounting the 'download' folder is required so that episodes will appear on your local filesystem, outside of docker.
 
 ---
 
@@ -58,4 +58,4 @@ This can be run without docker, pretty easily. All the dependencies have to be i
 #### Usage:
 1. `./download_show.sh <SHOW_URL>`
 
-- Replace `<SHOW_URL>` with your desired show, ex. `https://www.paramountplus.com/shows/survivor/`
+Replace `<SHOW_URL>` with your desired show, ex. `https://www.paramountplus.com/shows/survivor/`. The trailing slash is required, and anything extra will be trimmed off by the script.
