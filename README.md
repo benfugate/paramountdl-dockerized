@@ -31,7 +31,7 @@ Credits:
 
 > Wrote the script that downloads, and verifies downloads
 >
-> https://github.com/Grandfather-Paradox/paramount-dl/blob/main/LICENSE
+> https://github.com/Grandfather-Paradox/paramount-dl/
 
 > Wrote a script to batch download paramount shows. I stripped some of the script,
 > because I only needed the links file it generated.
