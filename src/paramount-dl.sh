@@ -72,7 +72,7 @@ while read link; do
 			echo -e "\e[32mDownload OK\e[0m"
 			retryDownload=false
 			currentEpisode=$(( $currentEpisode+1 ))
-			mv "$mkv" "S${1}E${currentEpisode+1}.mkv"
+			mv "$mkv" "S${1}E${!currentEpisode}.mkv"
 		else
 			echo -e "\e[31mError found, retrying...\e[0m"
 			rm "$mkv"
