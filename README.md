@@ -2,6 +2,8 @@
 
 ---
 
+Instructions to run without docker are at the bottom.
+
 Docker container that calls bash scripts to download from Paramount+ using youtube-dl,
 including Grandfather-Paradox's script that fixes the picture/audio lag/desync
 issues from Paramount+ youtube-dl downloads.
@@ -14,20 +16,25 @@ Dependencies: docker
 
 ---
 
-Usage:
+### Usage:
 
-`docker build -t paramountdl .`
+- #### Using my docker image
 
-`docker run -v $PWD/downloads:/usr/src/app/downloads paramountdl <SHOW_URL>`
+1. `docker run -v $PWD/downloads:/usr/src/app/downloads benfugate/paramountdl <SHOW_URL>`
 
+- #### Building your own
 
-Replace `<SHOW_URL>` with your desired show, ex. `https://www.paramountplus.com/shows/survivor/`
+1. `docker build -t paramountdl .`
 
-Mounting the 'download' folder is required so that episodes will appear on your local filesystem, outside of docker.
+2. `docker run -v $PWD/downloads:/usr/src/app/downloads paramountdl <SHOW_URL>`
+
+- Replace `<SHOW_URL>` with your desired show, ex. `https://www.paramountplus.com/shows/survivor/`
+
+- Mounting the 'download' folder is required so that episodes will appear on your local filesystem, outside of docker.
 
 ---
 
-Credits:
+### Credits:
 
 > Wrote the script that downloads, and verifies downloads
 >
@@ -37,3 +44,18 @@ Credits:
 > because I only needed the links file it generated.
 > 
 > https://github.com/ohmybahgosh/YT-DLP-SCRIPTS/blob/main/PARAMOUNT-YTDLP/PARAMOUNT-V2-YTDLP
+
+---
+
+### Running without Docker
+
+This can be run without docker, pretty easily. All the dependencies have to be installed though.
+
+> #### Dependencies:
+> 
+> wget, curl, jq, mkvtoolnix, mediainfo, ffmpeg, xidel, youtube-dl, pycryptodome
+
+#### Usage:
+1. `./download_show.sh <SHOW_URL>`
+
+- Replace `<SHOW_URL>` with your desired show, ex. `https://www.paramountplus.com/shows/survivor/`
