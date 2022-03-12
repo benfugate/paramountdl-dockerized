@@ -59,3 +59,10 @@ This can be run without docker, pretty easily. All the dependencies have to be i
 1. `./download_show.sh <SHOW_URL>`
 
 Replace `<SHOW_URL>` with your desired show, ex. `https://www.paramountplus.com/shows/survivor/`. The trailing slash is required, and anything extra will be trimmed off by the script.
+
+---
+
+#### This repo was created to solve the following issues more efficiently than the current avaiable solutions
+
+- https://github.com/ytdl-org/youtube-dl/issues/27972
+- https://github.com/yt-dlp/yt-dlp/issues/898
