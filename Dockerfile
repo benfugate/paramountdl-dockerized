@@ -8,8 +8,8 @@ RUN apt-get update && \
         mkvtoolnix mediainfo ffmpeg \
         python3 python3-pip python-is-python3 \
         --no-install-recommends && \
-    wget https://github.com/ytdl-org/youtube-dl/releases/latest/download/youtube-dl -O /usr/local/bin/youtube-dl && \
-    chmod a+x /usr/local/bin/youtube-dl && \
+    wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp && \
+    chmod a+x /usr/local/bin/yt-dlp && \
     wget https://github.com/benibela/xidel/releases/download/Xidel_0.9.8/xidel_0.9.8-1_amd64.deb && \
     dpkg -i xidel_0.9.8-1_amd64.deb && \
     pip3 install pycryptodome

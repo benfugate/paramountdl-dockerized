@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2021 /u/Grandfather-Paradox
+# Copyright 2022 /u/Grandfather-Paradox
 
 fileDurRegex="([0-9]+):([0-9]+):([0-9]+)\.[0-9]+"
 streamHrsMinsSecsRegex="([0-9]+):([0-9]+):([0-9]+)"
@@ -41,47 +41,49 @@ while read link; do
   while [ $retryDownload = true ]
   do
     echo -e "\e[36m[ $currentEpisode / $totalEpisodes ]\e[0m"
-    youtube-dl --hls-prefer-native --fragment-retries infinite --retries infinite --sub-lang en --write-sub --convert-subs srt --verbose "$link"
 
-    filename=$(youtube-dl --get-filename "$link")
+    filename=$(yt-dlp --get-filename "$link")
     base=$(basename "$filename" .mp4)
     srt="$base.en.srt"
     mkv="$base.mkv"
-
-    if [[ -f "$srt" ]]
+    if [[ ! -f "$mkv" ]]
     then
-      mkvmerge -o "$mkv" "$filename" "$srt"
-      mkvpropedit "$mkv" --edit track:s1 --set language=eng
-      rm "$srt"
+      yt-dlp --hls-prefer-native --fragment-retries infinite --retries infinite --sub-lang en --write-sub --convert-subs srt --verbose "$link"
+
+      if [[ -f "$srt" ]]
+      then
+        mkvmerge -o "$mkv" "$filename" "$srt"
+        mkvpropedit "$mkv" --edit track:s1 --set language=eng
+        rm "$srt"
+      else
+        mkvmerge -o "$mkv" "$filename"
+      fi
+      mkvpropedit "$mkv" --edit track:a1 --set language=eng --edit track:v1 --set language=eng
+
+      rm "$filename"
+
+      fileDur=$(mediainfo --Inform="Video;%Duration/String3%" "$mkv")
+      streamDur=$(yt-dlp --get-duration "$link")
+      totalFileSec=$(convert_to_seconds $fileDur)
+      echo "Total file secs: $totalFileSec"
+      totalStreamSec=$(convert_to_seconds $streamDur)
+      echo "Total stream secs: $totalStreamSec"
+
+      if [[ $totalFileSec -eq $totalStreamSec || $totalFileSec -eq $(( $totalStreamSec-1 )) ]]
+      then
+        echo -e "\e[32mDownload OK\e[0m"
+        retryDownload=false
+        currentEpisode=$(( $currentEpisode+1 ))
+      else
+        echo -e "\e[31mError found, retrying...\e[0m"
+        rm "$mkv"
+      fi
     else
-      mkvmerge -o "$mkv" "$filename"
-    fi
-    mkvpropedit "$mkv" --edit track:a1 --set language=eng --edit track:v1 --set language=eng
-
-    rm "$filename"
-
-    fileDur=$(mediainfo --Inform="Video;%Duration/String3%" "$mkv")
-    streamDur=$(youtube-dl --get-duration "$link")
-    totalFileSec=$(convert_to_seconds $fileDur)
-    echo "Total file secs: $totalFileSec"
-    totalStreamSec=$(convert_to_seconds $streamDur)
-    echo "Total stream secs: $totalStreamSec"
-
-    if [[ $totalFileSec -eq $totalStreamSec || $totalFileSec -eq $(( $totalStreamSec-1 )) ]]
-    then
-      echo -e "\e[32mDownload OK\e[0m"
+      echo -e "\e[32mAlready downloaded\e[0m"
       retryDownload=false
       currentEpisode=$(( $currentEpisode+1 ))
-
-      # Rename the episode to respresent the season and episode number, instead of episode name
-      mv "$mkv" "S${1}E${!currentEpisode}.mkv"
-    else
-      echo -e "\e[31mError found, retrying...\e[0m"
-      rm "$mkv"
     fi
   done
 done <links.txt
 
-# Clean up the links file, and delete this script file when done
-rm links.txt
-rm $0
+exit 0
