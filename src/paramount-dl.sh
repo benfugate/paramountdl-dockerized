@@ -42,13 +42,13 @@ while read link; do
   do
     echo -e "\e[36m[ $currentEpisode / $totalEpisodes ]\e[0m"
 
-    filename=$(yt-dlp --get-filename "$link")
+    filename=$(yt-dlp -q --no-warnings --get-filename "$link")
     base=$(basename "$filename" .mp4)
     srt="$base.en.srt"
     mkv="$base.mkv"
     if [[ ! -f "$mkv" ]]
     then
-      yt-dlp --hls-prefer-native --fragment-retries infinite --retries infinite --sub-lang en --write-sub --convert-subs srt --verbose "$link"
+      yt-dlp --cookies /usr/src/app/cookies.txt -q --no-warnings --hls-prefer-native --fragment-retries infinite --retries infinite --sub-lang en --write-sub --convert-subs srt "$link"
 
       if [[ -f "$srt" ]]
       then
@@ -63,7 +63,7 @@ while read link; do
       rm "$filename"
 
       fileDur=$(mediainfo --Inform="Video;%Duration/String3%" "$mkv")
-      streamDur=$(yt-dlp --get-duration "$link")
+      streamDur=$(yt-dlp --no-warnings --get-duration "$link")
       totalFileSec=$(convert_to_seconds $fileDur)
       echo "Total file secs: $totalFileSec"
       totalStreamSec=$(convert_to_seconds $streamDur)

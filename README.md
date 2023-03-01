@@ -22,13 +22,20 @@ Dependencies: docker
 
 1. `docker run -v $PWD/downloads:/usr/src/app/downloads benfugate/paramountdl <SHOW_URL>`
 
+Replace <SHOW_URL> with the url to the show on paramount.
+
+To run with a cookies.txt file (useful if logged into paramount), add "-v <cookies.txt_path>:/usr/src/app/cookies.txt"
+to the docker run command, replacing <cookies.txt_path> with the path to your local cookies.txt file.
+
+cookies.txt can be easily obtained using an extension like "Get cookies.txt"
 #### Building your own
 
 1. `docker build -t paramountdl .`
 
 2. `docker run -v $PWD/downloads:/usr/src/app/downloads paramountdl <SHOW_URL>`
 
-Replace `<SHOW_URL>` with your desired show, ex. `https://www.paramountplus.com/shows/survivor/`. The trailing slash is required, and anything extra will be trimmed off by the script.
+Replace `<SHOW_URL>` with your desired show, ex. `https://www.paramountplus.com/shows/survivor/`.
+**The trailing slash is required**, and anything extra will be trimmed off by the script.
 
 Mounting the 'download' folder is required so that episodes will appear on your local filesystem, outside of docker.
 
