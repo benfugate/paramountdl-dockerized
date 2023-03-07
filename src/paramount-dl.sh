@@ -48,7 +48,12 @@ while read link; do
     mkv="$base.mkv"
     if [[ ! -f "$mkv" ]]
     then
-      yt-dlp --cookies /usr/src/app/cookies.txt -q --no-warnings --hls-prefer-native --fragment-retries infinite --retries infinite --sub-lang en --write-sub --convert-subs srt "$link"
+      FILE=/usr/src/app/cookies.txt
+      if test -f "$FILE"; then
+        yt-dlp --cookies /usr/src/app/cookies.txt -q --no-warnings --hls-prefer-native --fragment-retries infinite --retries infinite --sub-lang en --write-sub --convert-subs srt "$link"
+      else
+        yt-dlp -q --no-warnings --hls-prefer-native --fragment-retries infinite --retries infinite --sub-lang en --write-sub --convert-subs srt "$link"
+      fi
 
       if [[ -f "$srt" ]]
       then

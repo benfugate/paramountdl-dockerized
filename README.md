@@ -2,6 +2,11 @@
 
 ---
 
+This tool is becoming less useful as Paramount continues to add DRM to more of their content.
+If you know your desired show is DRM free, then you are good to go!
+
+---
+
 Instructions to run without docker are at the bottom.
 
 Docker container that calls bash scripts to download from Paramount+ using youtube-dl,
@@ -57,10 +62,11 @@ Mounting the 'download' folder is required so that episodes will appear on your 
 ### Running without Docker
 
 This can be run without docker, pretty easily. All the dependencies have to be installed though.
+cookies are also not supported in this mode.
 
 > #### Dependencies:
 > 
-> wget, curl, jq, mkvtoolnix, mediainfo, ffmpeg, xidel, youtube-dl, pycryptodome
+> wget, curl, jq, mkvtoolnix, mediainfo, ffmpeg, xidel, yt-dlp, pycryptodome
 
 #### Usage:
 1. `./download_show.sh <SHOW_URL>`
